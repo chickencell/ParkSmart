@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Quick Start - Leaflet</title>
+
+	<!-- Step 1: include Leaflet's CSS file -->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+		integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+		crossorigin=""/>
+
+	<!-- Step 2: include Leaflet's JavaScript file AFTER the CSS -->
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+		integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+		crossorigin=""></script>
+
+	<style>
+		/* Step 3: the map container must have a height */
+		#map { width: 600px; height: 400px; }
+	</style>
+</head>
+<body>
+
+<!-- Step 3: the div the map is drawn into -->
+<div id="map"></div>
+
+<script>
+	// "Setting up the map": center of London, zoom level 13
+	var map = L.map('map').setView([51.505, -0.09], 13);
+
+	// OpenStreetMap tile layer (attribution is required)
+	// NOTE: the tutorial uses tile.openstreetmap.org, but OpenStreetMap blocks pages
+	// opened straight from a file, so I switched to CARTO's free OpenStreetMap-based tiles.
+	L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+		subdomains: 'abcd',
+		maxZoom: 19,
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+	}).addTo(map);
+
+	// "Markers, circles, and polygons"
+	var marker = L.marker([51.5, -0.09]).addTo(map);
+
+	var circle = L.circle([51.508, -0.11], {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5,
+		radius: 500
+	}).addTo(map);
+
+	var polygon = L.polygon([
+		[51.509, -0.08],
+		[51.503, -0.06],
+		[51.51, -0.047]
+	]).addTo(map);
+
+	// "Working with popups"
+	marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
+	circle.bindPopup("I am a circle.");
+	polygon.bindPopup("I am a polygon.");
+
+	// Standalone popup used as a layer
+	var popup = L.popup()
+		.setLatLng([51.513, -0.09])
+		.setContent("I am a standalone popup.")
+		.openOn(map);
+
+	// "Dealing with events": show where the map was clicked
+	// (final version from the tutorial, using a popup instead of alert())
+	function onMapClick(e) {
+		popup
+			.setLatLng(e.latlng)
+			.setContent("You clicked the map at " + e.latlng.toString())
+			.openOn(map);
+	}
+
+	map.on('click', onMapClick);
+</script>
+
+</body>
+</html>
