@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ParkSmart</title>
+
+  <!-- Leaflet (same setup as the Leaflet Quick Start tutorial) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- Screen 1: Campus Map -->
+    <section id="screen-map" class="screen active">
+      <header><h1>ParkSmart</h1></header>
+      <button id="search-bar" class="search-bar">&#128269; Where are you going?</button>
+      <div id="map"></div>
+      <div class="legend">
+        <span><i class="dot open"></i>Open</span>
+        <span><i class="dot almost"></i>Almost full</span>
+        <span><i class="dot full"></i>Full</span>
+      </div>
+      <p class="hint">Tap a lot to see details</p>
+    </section>
+
+    <!-- Screen 2: Find a Building -->
+    <section id="screen-search" class="screen">
+      <header><button class="back" aria-label="Back">&lsaquo;</button><h1>Find a Building</h1></header>
+      <input id="search-input" type="search" placeholder="Type a building name" autocomplete="off">
+      <ul id="building-list" class="list"></ul>
+    </section>
+
+    <!-- Screen 3: Best Lots -->
+    <section id="screen-lots" class="screen">
+      <header><button class="back" aria-label="Back">&lsaquo;</button><h1 id="lots-title">Parking</h1></header>
+      <p class="hint">Closest lots with open spots first</p>
+      <div id="lot-cards"></div>
+      <p class="hint">Full lots are not shown</p>
+    </section>
+
+    <!-- Screen 4: Lot Info -->
+    <section id="screen-info" class="screen">
+      <header><button class="back" aria-label="Back">&lsaquo;</button><h1 id="info-title">Lot</h1></header>
+      <div class="card">
+        <span id="info-status" class="badge"></span>
+        <p class="big"><span id="info-count"></span> <small>spots open</small></p>
+        <div class="bar"><div id="info-bar"></div></div>
+      </div>
+      <table class="facts">
+        <tr><th>Permit</th><td id="info-permit"></td></tr>
+        <tr><th>Walk to</th><td id="info-walk"></td></tr>
+      </table>
+      <a id="info-directions" class="primary" target="_blank" rel="noopener">Get Directions</a>
+      <p class="hint">(opens your maps app)</p>
+    </section>
+
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #e9ecef;
+  color: #222;
+}
+
+/* Phone-sized column, centered on a laptop screen */
+#app {
+  max-width: 420px;
+  height: 100vh;
+  margin: 0 auto;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.screen { display: none; flex-direction: column; height: 100%; padding: 0 14px 14px; overflow-y: auto; }
+.screen.active { display: flex; }
+
+header {
+  display: flex; align-items: center; justify-content: center;
+  position: relative; padding: 14px 0; border-bottom: 1px solid #ddd; margin-bottom: 12px;
+}
+header h1 { font-size: 1.3rem; margin: 0; }
+.back {
+  position: absolute; left: 0; font-size: 2rem; line-height: 1;
+  background: none; border: none; cursor: pointer; padding: 0 10px;
+}
+
+.search-bar, #search-input {
+  width: 100%; padding: 12px 14px; font-size: 1rem;
+  border: 1.5px solid #555; border-radius: 12px; background: #fff; text-align: left;
+  cursor: pointer; color: #777; margin-bottom: 12px;
+}
+#search-input { color: #222; cursor: text; }
+
+#map { flex: 1; min-height: 300px; border: 1.5px solid #555; border-radius: 6px; }
+
+.legend { display: flex; justify-content: space-around; margin: 10px 0 0; font-size: .9rem; }
+.dot { display: inline-block; width: 14px; height: 14px; border-radius: 3px; margin-right: 6px; vertical-align: -2px; border: 1px solid #555; }
+.open   { background: #8fdc9a; }
+.almost { background: #ffe066; }
+.full   { background: #f28b8b; }
+
+.hint { text-align: center; color: #777; font-size: .85rem; margin: 10px 0; }
+
+/* Lot markers on the map */
+.lot-marker {
+  font-weight: bold; font-size: 13px; text-align: center; line-height: 24px;
+  border: 1.5px solid #333; border-radius: 6px; white-space: nowrap;
+}
+
+/* Lists and cards */
+.list { list-style: none; margin: 0; padding: 0; }
+.list li {
+  padding: 16px 8px; border-bottom: 1px solid #ddd; cursor: pointer;
+  display: flex; justify-content: space-between; font-size: 1.05rem;
+}
+.list li::after { content: "\203A"; color: #777; font-size: 1.3rem; line-height: 1; }
+.list li:hover, .card.tap:hover { background: #f3f7fc; }
+
+.card { border: 1.5px solid #555; border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; }
+.card.tap { cursor: pointer; }
+.card h2 { margin: 0 0 6px; font-size: 1.15rem; display: flex; justify-content: space-between; align-items: center; }
+.card p { margin: 4px 0; }
+.muted { color: #666; }
+
+.badge { display: inline-block; padding: 3px 10px; border-radius: 6px; border: 1px solid #555; font-size: .8rem; font-weight: bold; }
+.big { font-size: 2rem; margin: 10px 0 8px; }
+.big small { font-size: .9rem; color: #555; }
+.bar { height: 16px; border: 1px solid #555; border-radius: 3px; overflow: hidden; }
+.bar div { height: 100%; }
+
+.facts { width: 100%; margin: 6px 0 24px; border-collapse: collapse; }
+.facts th { text-align: left; width: 90px; vertical-align: top; padding: 8px 0; font-weight: normal; color: #555; }
+.facts td { padding: 8px 0; }
+
+.primary {
+  display: block; text-align: center; padding: 14px; font-size: 1.1rem; font-weight: bold;
+  background: #b9dcf5; border: 1.5px solid #555; border-radius: 10px; color: #222; text-decoration: none;
+}
