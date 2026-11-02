@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ParkSmart Runnable Prototype</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #eef0f2; color: #222;
+         display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+  header { text-align: center; padding: 14px 16px 6px; }
+  header h1 { margin: 0; font-size: 1.3rem; }
+  header p { margin: 4px 0 0; color: #555; font-size: .9rem; }
+  .controls { display: flex; gap: 10px; align-items: center; margin: 8px 0 10px; flex-wrap: wrap; justify-content: center; }
+  .controls button, .controls label { font-size: .9rem; padding: 6px 12px; border: 1px solid #888;
+         border-radius: 8px; background: #fff; cursor: pointer; }
+  #screen-name { font-weight: bold; color: #2f6fb5; }
+  .phone { position: relative; height: min(82vh, 860px); aspect-ratio: 320 / 620; }
+  .phone img { width: 100%; height: 100%; display: block; user-select: none; -webkit-user-drag: none; }
+  .hot { position: absolute; background: transparent; border: 0; padding: 0; cursor: pointer; border-radius: 8px; }
+  .hot:focus-visible { outline: 3px solid #2f6fb5; }
+  .show-hot .hot { background: rgba(255, 196, 0, .28); outline: 2px dashed #c98a00; }
+  #toast { position: absolute; left: 8%; right: 8%; bottom: 14%; background: #222; color: #fff; padding: 12px 14px;
+           border-radius: 10px; font-size: .95rem; text-align: center; opacity: 0; transition: opacity .25s; pointer-events: none; }
+  #toast.on { opacity: .95; }
+  footer { color: #777; font-size: .8rem; padding: 10px 16px 18px; text-align: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>ParkSmart: runnable paper prototype</h1>
+  <p>Click the sketch the way you would tap a phone. Now showing: <span id="screen-name"></span></p>
+</header>
+<div class="controls">
+  <label><input type="checkbox" id="show"> Show tap areas</label>
+  <button id="restart">Restart</button>
+</div>
+<div class="phone" id="phone">
+  <img id="img" alt="">
+  <div id="toast"></div>
+</div>
+<footer>Milestone 2, CSCI 4250 HCI. Screens are hand-drawn style sketches; availability numbers are made up.</footer>
+<script>
+const FILES = {"map": "m2_1_map.png", "map_popup": "m2_2_popup.png", "search": "m2_3_search.png", "lots": "m2_4_lots.png", "info": "m2_5_info.png", "full": "m2_6_full.png"};
+const NAMES = {"map": "Campus Map", "map_popup": "Campus Map - lot preview", "search": "Find a Building", "lots": "Best Lots", "info": "Lot Info", "full": "All Lots Full"};
+const HOTSPOTS = {"map":[{"x":0.08125,"y":0.12903225806451613,"w":0.8375,"h":0.054838709677419356,"target":"search","label":"Search bar"},{"x":0.175,"y":0.3548387096774194,"w":0.125,"h":0.054838709677419356,"target":"map_popup","label":"Lot marker"},{"x":0.6875,"y":0.3548387096774194,"w":0.125,"h":0.054838709677419356,"target":"map_popup","label":"Lot marker"},{"x":0.2625,"y":0.47096774193548385,"w":0.125,"h":0.054838709677419356,"target":"map_popup","label":"Lot marker"},{"x":0.68125,"y":0.5064516129032258,"w":0.125,"h":0.054838709677419356,"target":"map_popup","label":"Lot marker"}],"map_popup":[{"x":0.08125,"y":0.12903225806451613,"w":0.8375,"h":0.054838709677419356,"target":"search","label":"Search bar"},{"x":0.10625,"y":0.8161290322580645,"w":0.46875,"h":0.054838709677419356,"target":"info","label":"See details"},{"x":0.6125,"y":0.8161290322580645,"w":0.28125,"h":0.054838709677419356,"target":"map","label":"Close"},{"x":0.0625,"y":0.20967741935483872,"w":0.875,"h":0.432258064516129,"target":"map","label":"Tap map to close"}],"search":[{"x":0.05,"y":0.05806451612903226,"w":0.14375,"h":0.06451612903225806,"target":"map","label":"Back"},{"x":0.0625,"y":0.2645161290322581,"w":0.875,"h":0.05806451612903226,"target":"lots","label":"Recent: Science Hall"},{"x":0.0625,"y":0.32903225806451614,"w":0.875,"h":0.05806451612903226,"target":"lots","label":"Recent: Library"},{"x":0.0625,"y":0.44193548387096776,"w":0.875,"h":0.07419354838709677,"target":"full","label":"Arena"},{"x":0.0625,"y":0.5225806451612903,"w":0.875,"h":0.07419354838709677,"target":"lots","label":"Library"},{"x":0.0625,"y":0.603225806451613,"w":0.875,"h":0.07419354838709677,"target":"lots","label":"Science Hall"},{"x":0.0625,"y":0.6838709677419355,"w":0.875,"h":0.07419354838709677,"target":"lots","label":"Social Science Bldg"},{"x":0.0625,"y":0.7645161290322581,"w":0.875,"h":0.07419354838709677,"target":"lots","label":"Student Center"}],"lots":[{"x":0.05,"y":0.05806451612903226,"w":0.14375,"h":0.06451612903225806,"target":"search","label":"Back"},{"x":0.06875,"y":0.1967741935483871,"w":0.8625,"h":0.15806451612903225,"target":"info","label":"Lot A"},{"x":0.06875,"y":0.3774193548387097,"w":0.8625,"h":0.15806451612903225,"target":"info","label":"Lot D"},{"x":0.06875,"y":0.5580645161290323,"w":0.8625,"h":0.15806451612903225,"target":"info","label":"Lot B"}],"info":[{"x":0.05,"y":0.05806451612903226,"w":0.14375,"h":0.06451612903225806,"target":"BACK","label":"Back"},{"x":0.08125,"y":0.6451612903225806,"w":0.8375,"h":0.06451612903225806,"target":"DIRECTIONS","label":"Get Directions"},{"x":0.08125,"y":0.7903225806451613,"w":0.8375,"h":0.05161290322580645,"target":"map","label":"Back to map"}],"full":[{"x":0.05,"y":0.05806451612903226,"w":0.14375,"h":0.06451612903225806,"target":"search","label":"Back"},{"x":0.06875,"y":0.42258064516129035,"w":0.8625,"h":0.15806451612903225,"target":"info","label":"Lot A"},{"x":0.08125,"y":0.632258064516129,"w":0.8375,"h":0.054838709677419356,"target":"search","label":"Pick a different building"}]};
+const phone = document.getElementById("phone"), img = document.getElementById("img");
+const toast = document.getElementById("toast");
+let current = "map", trail = [];
+
+// Preload all screens so taps feel instant
+Object.values(FILES).forEach(f => { const i = new Image(); i.src = "screens/" + f; });
+
+function show(id, push = true) {
+  if (push && id !== current) trail.push(current);
+  current = id;
+  toast.classList.remove("on");
+  img.src = "screens/" + FILES[id];
+  img.alt = NAMES[id] + " screen";
+  document.getElementById("screen-name").textContent = NAMES[id];
+  phone.querySelectorAll(".hot").forEach(b => b.remove());
+  HOTSPOTS[id].forEach(h => {
+    const b = document.createElement("button");
+    b.className = "hot";
+    b.title = h.label;
+    b.setAttribute("aria-label", h.label);
+    Object.assign(b.style, { left: h.x * 100 + "%", top: h.y * 100 + "%", width: h.w * 100 + "%", height: h.h * 100 + "%" });
+    b.addEventListener("click", () => go(h.target));
+    phone.appendChild(b);
+  });
+}
+
+function go(target) {
+  if (target === "BACK") { show(trail.pop() || "map", false); return; }
+  if (target === "DIRECTIONS") { flash("This would open Google Maps with directions to Lot A."); return; }
+  if (target === "map") trail = [];
+  show(target);
+}
+
+function flash(msg) {
+  toast.textContent = msg; toast.classList.add("on");
+  clearTimeout(flash.t); flash.t = setTimeout(() => toast.classList.remove("on"), 2600);
+}
+
+document.getElementById("show").addEventListener("change", e => phone.classList.toggle("show-hot", e.target.checked));
+document.getElementById("restart").addEventListener("click", () => { trail = []; show("map", false); });
+show("map", false);
+</script>
+</body>
+</html>
