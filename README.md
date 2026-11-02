@@ -13,7 +13,8 @@ Availability is simulated for the prototype.
 |---|---|
 | [`tutorial-leaflet/`](tutorial-leaflet/) | **Milestone 1 tutorial code.** Code from the official Leaflet Quick Start and Leaflet on Mobile tutorials. Its README explains where the code came from. |
 | [`parksmart-app/`](parksmart-app/) | Early ParkSmart prototype (4 screens: Campus Map, Find a Building, Best Lots, Lot Info), built with Leaflet. |
-| [`docs/`](docs/) | Milestone 1 lo-fi paper prototype with mini-specs (PDF and PowerPoint). |
+| [`m2-prototype/`](m2-prototype/) | **Milestone 2 runnable prototype.** Clickable version of the refined sketches (open `index.html`). |
+| [`docs/`](docs/) | Milestone 1 lo-fi prototype (PDF and PowerPoint) and the Milestone 2 writeup (Word and PDF). |
 
 ## Running the code
 
