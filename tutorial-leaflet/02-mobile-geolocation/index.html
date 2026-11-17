@@ -34,11 +34,10 @@
 	var map = L.map('map').fitWorld();
 
 	// NOTE: the tutorial uses tile.openstreetmap.org, but OpenStreetMap blocks pages
-	// opened straight from a file, so I switched to CARTO's free OpenStreetMap-based tiles.
-	L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-		subdomains: 'abcd',
+	// opened straight from a file, so I switched to Esri's free World Street Map tiles.
+	L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
 		maxZoom: 19,
-		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+		attribution: 'Tiles &copy; Esri &mdash; Sources: Esri, HERE, Garmin, USGS, OpenStreetMap contributors, and the GIS User Community'
 	}).addTo(map);
 
 	// When the browser finds the user's location: add a marker and an accuracy circle
