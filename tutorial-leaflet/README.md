@@ -18,8 +18,8 @@ label each tutorial step.
 
 **One change from the tutorial:** the tutorial loads map tiles from
 `tile.openstreetmap.org`, but OpenStreetMap blocks pages opened directly from a
-file ("Access blocked"). I switched the tile URL to CARTO's free
-OpenStreetMap-based tiles so the pages work when you double-click them.
+file ("Access blocked"). I switched the tile URL to Esri's free
+World Street Map tiles so the pages work when you double-click them.
 
 ## What each tutorial covers and why it matters for ParkSmart
 
