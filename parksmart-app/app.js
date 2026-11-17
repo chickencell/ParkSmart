@@ -2,8 +2,11 @@
 // Screens: Campus Map -> Find a Building -> Best Lots -> Lot Info
 
 // ---------- Simulated availability ----------
+// For demos: add ?hour=10 to the page address to simulate 10 AM (busiest time).
+const DEMO_HOUR = new URLSearchParams(location.search).get("hour");
+
 function openSpots(lot) {
-  const hour = new Date().getHours();
+  const hour = DEMO_HOUR !== null ? Number(DEMO_HOUR) % 24 : new Date().getHours();
   const fullness = Math.min(1, HOURLY_FULLNESS[hour] * LOT_BUSYNESS[lot.id]);
   return Math.round(lot.capacity * (1 - fullness));
 }
@@ -53,13 +56,12 @@ document.querySelectorAll(".back").forEach(btn => btn.addEventListener("click", 
 // ---------- Screen 1: Campus Map ----------
 const map = L.map("map").setView(CAMPUS_CENTER, START_ZOOM);
 
-// Map tiles from CARTO (free, based on OpenStreetMap data).
+// Map tiles from Esri's free World Street Map (no API key needed).
 // OpenStreetMap's own tile servers block pages opened straight from a file,
 // so this works when you just double-click index.html.
-L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-  subdomains: "abcd",
+L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
   maxZoom: 19,
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+  attribution: "Tiles &copy; Esri &mdash; Sources: Esri, HERE, Garmin, USGS, OpenStreetMap contributors, and the GIS User Community"
 }).addTo(map);
 
 const markerLayer = L.layerGroup().addTo(map);
